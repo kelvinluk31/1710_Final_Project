@@ -40,8 +40,8 @@ color TEAL = color(0, 128 ,128);
 color NAVY = color(0, 0 ,128);
 
 PImage UIBackGround;
-PShape s;
-int x;
+PShape WaveformBackGround;
+Emotion_Engine PowerVR;
 
 // UI Buttons //
 Media_Button RecordButton;
@@ -75,7 +75,7 @@ void setup() {
   size(1024, 768, P3D);
   samples = 100;
   waveform = new Waveform[8];
-  
+  PowerVR = new Emotion_Engine();
   
   sine = new SinOsc[8];
   midi = new Midi[8];
@@ -109,7 +109,7 @@ void setup() {
   SCButton = new Control_Button(8, midi[7]); //
   
   UIBackGround = loadImage("2D/background.png");
-  
+  //WaveformBackGround = createShape(rect
   
 }
 
@@ -120,27 +120,13 @@ void draw() {
   //translate(width/2, height/2, x);
   //rotateX((5*PI)/6);
   
-  stroke(255);
-  strokeWeight(2);
-  noFill();
+
 
   for(int i = 0; i < 8; i++){
     waveform[i].analyze();
   }
   
-  beginShape();
-  for(int i = 0; i < samples; i++)
-  {
-    master.data[i] = 0;
-    for(int j = 0; j < 8; j++){
-      master.data[i] = master.data[i] + waveform[j].data[i];
-    }
-    vertex(
-      map(i, 0, samples, 0, width),
-      map((master.data[i]/8), -1, 1, 0, height-512)
-    );
-  }
-  endShape();
+
   
   
   //drawing the UI needs to go after all the 3d so it's the "top layer"; Everything after this point is UI.
@@ -160,6 +146,11 @@ void draw() {
   KButton.draw();
   LButton.draw();
   SCButton.draw();
+  
+  PowerVR.run();
+  
+
+  
 }
 
 void keyPressed(){
@@ -229,72 +220,94 @@ void keyPressed(){
   }
   // Actual key depression //
   if(key == 'a' || key == 'A'){
-    AButton.toggleState();
-    
+    //AButton.toggleState();
+    AButton.depress();
+    PowerVR.bitFlip(0);
   }
   
   if(key == 's' || key == 'S'){
-    SButton.toggleState();
+    //SButton.toggleState();
+    SButton.depress();
+    PowerVR.bitFlip(1);
   }
   
   if(key == 'd' || key == 'D'){
-    DButton.toggleState();
+    //DButton.toggleState();
+    DButton.depress();
+    PowerVR.bitFlip(2);
   }
   
   if(key == 'f' || key == 'F'){
-    FButton.toggleState();
+    //FButton.toggleState();
+    FButton.depress();
+    PowerVR.bitFlip(3);
   }
   
   if(key == 'j' || key == 'J'){
-    JButton.toggleState();
-    
+    //JButton.toggleState();
+    JButton.depress();
+    PowerVR.bitFlip(4);
   }
   
   if(key == 'k' || key == 'K'){
-    KButton.toggleState();
+    //KButton.toggleState();
+    KButton.depress();
+    PowerVR.bitFlip(5);
   }
   
   if(key == 'l' || key == 'L'){
-    LButton.toggleState();
+    //LButton.toggleState();
+    LButton.depress();
+    PowerVR.bitFlip(6);
   }
   
   if(key == ';' || key == ':'){
-    SCButton.toggleState();
+    //SCButton.toggleState();
+    SCButton.depress();
+    PowerVR.bitFlip(7);
   }
 
 }
 
 void keyReleased(){
   if(key == 'a' || key == 'A'){
-    AButton.toggleState();
+    //AButton.toggleState();
+    AButton.release();
     
   }
   
   if(key == 's' || key == 'S'){
-    SButton.toggleState();
+    //SButton.toggleState();
+    SButton.release();
   }
   
   if(key == 'd' || key == 'D'){
-    DButton.toggleState();
+    //DButton.toggleState();
+    DButton.release();
   }
   
   if(key == 'f' || key == 'F'){
-    FButton.toggleState();
+    //FButton.toggleState();
+    FButton.release();
   }
   
   if(key == 'j' || key == 'J'){
-    JButton.toggleState();
+    //JButton.toggleState();
+    JButton.release();
   }
   
   if(key == 'k' || key == 'K'){
-    KButton.toggleState();
+    //KButton.toggleState();
+    KButton.release();
   }
   
   if(key == 'l' || key == 'L'){
-    LButton.toggleState();
+    //LButton.toggleState();
+    LButton.release();
   }
   
   if(key == ';' || key == ':'){
-    SCButton.toggleState();
+    //SCButton.toggleState();
+    SCButton.release();
   }
 }
